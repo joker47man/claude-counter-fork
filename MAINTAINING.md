@@ -138,9 +138,27 @@ Only the files the extension actually loads are packaged.
 is what causes Chrome's "Could not unzip extension" (upstream issue #36).
 `build.sh` zips from a staging directory to guarantee this.
 
-Firefox note: an unsigned `.xpi` will not install in release Firefox. Use
-`about:debugging` → *Load Temporary Add-on*, or Developer Edition with
-`xpinstall.signatures.required=false`.
+**No `.xpi` is built, deliberately.** Renaming the zip does not make a Firefox
+add-on. Release Firefox and Beta hard-refuse unsigned extensions, so the `.xpi`
+this repo used to emit could never install — shipping it only gave Firefox users a
+file that failed. They load the unpacked zip through `about:debugging` instead.
+
+Making a real one needs two things, in this order:
+
+1. **A new `browser_specific_settings.gecko.id`.** The current one,
+   `{236c6889-52b6-4454-bc4b-5a2ad18effa2}`, is upstream's. Mozilla ties an ID to
+   the AMO account that registered it, so this fork cannot be signed under it. A new
+   ID also means the fork installs alongside upstream's build rather than colliding.
+2. **AMO signing for self-distribution** — `web-ext sign --channel=unlisted` with
+   AMO API credentials. That returns a signed `.xpi` that installs normally.
+
+**Release links point at `releases/latest`, never at
+`releases/download/<tag>/<exact-name>`.** A direct asset link 404s the moment the
+file name differs by a character, and names change on upload easily — the v0.6.0 zip
+landed as `claudecounter0.6.0.zip` and broke both links immediately. Attaching a
+build is always a manual step: the API's `create_release` has no asset upload (that
+is `uploads.github.com`) and the contents API takes text, so a binary cannot be
+committed either.
 
 ## Staying in sync with upstream
 
