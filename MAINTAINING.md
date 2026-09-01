@@ -63,16 +63,44 @@ If you add another one, do the same. And when pushing files by API rather than
 the blob sha the API reports) -- comparing rendered content by eye will not
 catch an invisible character.
 
+## The Claude Code surface
+
+`src/content/code-usage.js` handles `claude.ai/code`. It does **not** draw its own
+usage row: Claude Code's native popover already has one. It only adds the window
+position marker that the native bars lack.
+
+It reads everything from the popover's own text rather than from the `/usage` API,
+which is deliberate — it means the marker always agrees with the numbers next to it,
+and it works for rows the API knows nothing about (the per-model weekly row).
+
+Two things that will bite:
+
+- `textContent` **concatenates children**, so a row reads `Resets in 4 hr 43 min7%`.
+  A trailing `\b` on the minutes pattern fails between `n` and `5`; the patterns use
+  a `(?![a-z])` lookahead instead.
+- A row is identified as the nearest ancestor holding **exactly one** `progressbar`
+  that also mentions a reset. Without the one-bar rule the walk climbs past the
+  credits row (which has a bar but no reset) and matches the container holding every
+  row, stamping the credits bar with the 5-hour window's numbers.
+
+Re-capture the DOM with `tools/diagnose-code-rows.js` and update the fixture in
+`tools/test-code-usage.js` when the panel changes.
+
+```bash
+npm install jsdom            # deliberately not vendored; this repo has no package.json
+node tools/test-code-usage.js
+```
+
 ## Repo layout
 
 | Path | What it is |
 |---|---|
 | `manifest.json` | MV3 manifest; content scripts load in dependency order |
-| `src/content/` | Content scripts: `constants` → `bridge-client` → vendor tokenizer → `tokens` → `ui` → `main` |
+| `src/content/` | Content scripts, loaded in this order: `constants` → `code-usage` → `bridge-client` → vendor tokenizer → `tokens` → `ui` → `main` |
 | `src/injected/bridge.js` | Runs in page context; intercepts claude.ai API responses |
 | `src/vendor/o200k_base.js` | Vendored tokenizer (2 MB), from gpt-tokenizer (MIT) |
 | `userscript/claude-counter.user.js` | **A bundled copy of the same logic.** Any `src/` fix must be mirrored here |
-| `tools/` | Build, upstream sync, DOM diagnostic |
+| `tools/` | Build, upstream sync, drift check, DOM diagnostics, code-usage test |
 
 > The userscript is a hand-maintained concatenation, not a build output. It is the
 > easiest thing to forget. Grep it for the symbol you just changed.
