@@ -1,5 +1,11 @@
 # Claude Counter
 
+> **Fork.** Of [she-llac/claude-counter](https://github.com/she-llac/claude-counter),
+> which has been dormant since 2026-03-21 with the claude.ai redesign fixes sitting
+> unmerged. This fork carries the fix for the layout the **Chat/Cowork** switch broke:
+> usage bars no longer render on top of the composer controls, and the token counter
+> attaches again. See [MAINTAINING.md](./MAINTAINING.md).
+
 A minimal browser extension that shows token count, cache timer, and usage bars on claude.ai.
 
 ![Claude Counter screenshot](./screenshot.png)
@@ -14,13 +20,13 @@ A minimal browser extension that shows token count, cache timer, and usage bars 
 
 **Chrome / Edge / Chromium**
 
-1. Download [`claude-counter-0.4.2.zip`](../../releases/download/v0.4.2/claude-counter-0.4.2.zip)
+1. Download [`claude-counter-0.5.0.zip`](../../releases/download/v0.5.0/claude-counter-0.5.0.zip)
 2. Go to `chrome://extensions` and enable **Developer mode**
 3. Drag and drop the zip onto the page
 
 **Firefox**
 
-1. Download [`claude-counter-0.4.2.xpi`](../../releases/download/v0.4.2/claude-counter-0.4.2.xpi)
+1. Download [`claude-counter-0.5.0.xpi`](../../releases/download/v0.5.0/claude-counter-0.5.0.xpi)
 2. Drag it into any Firefox window and click **Add**
 
 **Userscript**
@@ -41,6 +47,8 @@ A minimal browser extension that shows token count, cache timer, and usage bars 
 - Makes requests only to `claude.ai`
 
 ## Credits
+
+- Redesign layout fix from upstream PR [#46](https://github.com/she-llac/claude-counter/pull/46) by [@ashishahir1](https://github.com/ashishahir1)
 
 - Token counting via [gpt-tokenizer](https://github.com/niieani/gpt-tokenizer) (MIT)
 - Inspired by [Claude Usage Tracker](https://github.com/lugia19/Claude-Usage-Extension) by lugia19
