@@ -8,7 +8,17 @@
 
 A minimal browser extension that shows token count, cache timer, and usage bars on claude.ai.
 
-![Claude Counter screenshot](./screenshot.png)
+![Token count, cache timer and usage bars in a claude.ai conversation](./screenshot-conversation.png)
+
+*In a conversation — approximate token count with a mini bar against the context
+limit, the cache countdown, and session/weekly usage bars sitting below the composer
+rather than on top of its controls, which is what the Chat/Cowork redesign broke.*
+
+![Window-position markers in Claude Code's usage popover](./screenshot-code.png)
+
+*On `claude.ai/code` — a marker added to Claude Code's own usage bars showing how far
+through the reset window you are. Here the 5-hour limit is 10% used but 38% through
+its window, so usage is well under pace.*
 
 ## Features
 
