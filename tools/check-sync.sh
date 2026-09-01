@@ -43,6 +43,7 @@ echo "src/ vs $US:"
 check "CC.DOM selectors"  "CC.DOM = Object.freeze"  src/content/constants.js
 check "attachHeader()"    "attachHeader() {"        src/content/ui.js
 check "attachUsageLine()" "attachUsageLine() {"     src/content/ui.js
+check "codeUsage rowFor()" "function rowFor(bar) {"  src/content/code-usage.js
 
 # Versions are independent strings but must be bumped together.
 MV=$(python3 -c 'import json;print(json.load(open("manifest.json"))["version"])')
