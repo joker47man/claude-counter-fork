@@ -44,6 +44,25 @@ Selectors live in one place: `CC.DOM` in `src/content/constants.js`. Keep old
 selectors in the comma-separated list when adding new ones — it costs nothing and
 keeps older claude.ai builds working.
 
+## A trap worth knowing about
+
+`src/content/ui.js` and the userscript need a few non-breaking spaces for
+spacing in the header. They are built with `String.fromCharCode(160)` rather
+than a Unicode escape for U+00A0 or a pasted literal, and that is deliberate.
+
+Pushing these files through the GitHub contents API rewrote each such
+escape into a raw U+00A0 character. The JavaScript is functionally identical --
+both forms evaluate to codepoint 160 -- but a raw non-breaking space is
+invisible in source and in a diff, so the working copy and the repo drifted
+apart with nothing visible to review. Building the character from its code
+point keeps the source pure ASCII at those sites, so no transport can rewrite
+it and the character has a name where it is used.
+
+If you add another one, do the same. And when pushing files by API rather than
+`git push`, verify with the git blob SHA (`git rev-parse HEAD:<path>` against
+the blob sha the API reports) -- comparing rendered content by eye will not
+catch an invisible character.
+
 ## Repo layout
 
 | Path | What it is |
