@@ -3,6 +3,12 @@
 
 	const CC = (globalThis.ClaudeCounter = globalThis.ClaudeCounter || {});
 
+	// U+00A0, non-breaking space. Built from its code point on purpose: the raw
+	// character is invisible in source, and a \u escape gets rewritten to that raw
+	// character by some tooling, so the two forms silently drift apart. This form is
+	// plain ASCII and survives any transport.
+	const NBSP = String.fromCharCode(160);
+
 	function formatSeconds(totalSeconds) {
 		const minutes = Math.floor(totalSeconds / 60);
 		const seconds = totalSeconds % 60;
@@ -466,7 +472,7 @@
 				barContainer.className = 'inline-flex items-center';
 				barContainer.appendChild(bar);
 
-				this.lengthGroup.replaceChildren(this.lengthDisplay, document.createTextNode('  '), barContainer);
+				this.lengthGroup.replaceChildren(this.lengthDisplay, document.createTextNode(NBSP + NBSP), barContainer);
 			}
 
 			// Cache timer
@@ -480,7 +486,7 @@
 					textContent: formatSeconds(secondsLeft)
 				});
 				this.cacheTimeSpan.style.color = boldColor;
-				this.cachedDisplay.replaceChildren(document.createTextNode('cached for '), this.cacheTimeSpan);
+				this.cachedDisplay.replaceChildren(document.createTextNode('cached for' + NBSP), this.cacheTimeSpan);
 			} else {
 				this.lastCachedUntilMs = null;
 				this.cacheTimeSpan = null;
@@ -499,7 +505,7 @@
 			if (!hasTokens) return;
 
 			if (hasCache) {
-				const gap = this.lengthBar ? '  ' : ' ';
+				const gap = this.lengthBar ? NBSP + NBSP : NBSP;
 				this.headerDisplay.replaceChildren(
 					this.lengthGroup,
 					document.createTextNode(gap),
