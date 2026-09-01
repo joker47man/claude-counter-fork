@@ -16,17 +16,30 @@ A minimal browser extension that shows token count, cache timer, and usage bars 
 - **Cache timer** — Countdown showing how long the conversation remains cached (cheaper to continue)
 - **Usage bars** — Session (5-hour) and weekly (7-day) usage from Claude's native API, with progress bars and reset countdowns (more accurate than the rounded /usage page)
 
+### Claude Code (`claude.ai/code`)
+
+Claude Code's own usage popover — the circular indicator in the corner — already
+shows each limit's percentage, reset time and a fill bar. What it does not show is
+**how far through the reset window you are**, which is what tells you whether your
+usage is ahead of or behind pace.
+
+This fork adds that: a marker on each limit bar at the window position, with a
+tooltip like `6% through the window, 4h 43m left — ahead of pace`. Rows without a
+reset window (Usage credits, Context window) are left untouched.
+
+Addresses upstream issue [#13](https://github.com/she-llac/claude-counter/issues/13).
+
 ## Installation
 
 **Chrome / Edge / Chromium**
 
-1. Download [`claude-counter-0.5.0.zip`](../../releases/download/v0.5.0/claude-counter-0.5.0.zip)
+1. Download [`claude-counter-0.6.0.zip`](../../releases/download/v0.6.0/claude-counter-0.6.0.zip)
 2. Go to `chrome://extensions` and enable **Developer mode**
 3. Drag and drop the zip onto the page
 
 **Firefox**
 
-1. Download [`claude-counter-0.5.0.xpi`](../../releases/download/v0.5.0/claude-counter-0.5.0.xpi)
+1. Download [`claude-counter-0.6.0.xpi`](../../releases/download/v0.6.0/claude-counter-0.6.0.xpi)
 2. Drag it into any Firefox window and click **Add**
 
 **Userscript**
