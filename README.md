@@ -31,20 +31,36 @@ Addresses upstream issue [#13](https://github.com/she-llac/claude-counter/issues
 
 ## Installation
 
+Grab the `.zip` (Chrome) or `.xpi` (Firefox) from the
+**[latest release](../../releases/latest)**. The links below point at the release
+page rather than at a file name on purpose — an asset whose name does not match the
+link exactly gives a 404, and the name is easy to change by accident on upload.
+
 **Chrome / Edge / Chromium**
 
-1. Download [`claude-counter-0.6.0.zip`](../../releases/download/v0.6.0/claude-counter-0.6.0.zip)
+1. Download the `.zip` from the [latest release](../../releases/latest)
 2. Go to `chrome://extensions` and enable **Developer mode**
 3. Drag and drop the zip onto the page
 
 **Firefox**
 
-1. Download [`claude-counter-0.6.0.xpi`](../../releases/download/v0.6.0/claude-counter-0.6.0.xpi)
-2. Drag it into any Firefox window and click **Add**
+1. Download the `.xpi` from the [latest release](../../releases/latest)
+2. It is unsigned, so release Firefox will refuse a normal install. Use
+   `about:debugging` → *Load Temporary Add-on*, or Developer Edition with
+   `xpinstall.signatures.required=false`
 
 **Userscript**
 
 1. Install the userscript from [`claude-counter.user.js`](./userscript/claude-counter.user.js)
+
+**From source** — no release needed:
+
+```bash
+git clone https://github.com/joker47man/claude-counter-fork.git
+cd claude-counter-fork && bash tools/build.sh     # writes dist/
+```
+
+Or load `chrome://extensions` → *Load unpacked* and point it at the clone.
 
 ## How it works
 
