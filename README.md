@@ -41,11 +41,6 @@ Addresses upstream issue [#13](https://github.com/she-llac/claude-counter/issues
 
 ## Installation
 
-Grab the `.zip` (Chrome) or `.xpi` (Firefox) from the
-**[latest release](../../releases/latest)**. The links below point at the release
-page rather than at a file name on purpose — an asset whose name does not match the
-link exactly gives a 404, and the name is easy to change by accident on upload.
-
 **Chrome / Edge / Chromium**
 
 1. Download the `.zip` from the [latest release](../../releases/latest)
@@ -54,10 +49,15 @@ link exactly gives a 404, and the name is easy to change by accident on upload.
 
 **Firefox**
 
-1. Download the `.xpi` from the [latest release](../../releases/latest)
-2. It is unsigned, so release Firefox will refuse a normal install. Use
-   `about:debugging` → *Load Temporary Add-on*, or Developer Edition with
-   `xpinstall.signatures.required=false`
+Not distributed as a signed `.xpi`, so it has to be loaded unpacked:
+
+1. Download the `.zip` from the [latest release](../../releases/latest) and unzip it
+2. Go to `about:debugging#/runtime/this-firefox`
+3. **Load Temporary Add-on** and pick the `manifest.json` inside
+
+That lasts until you restart Firefox. For a permanent install use Developer
+Edition, Nightly or ESR with `xpinstall.signatures.required=false` in
+`about:config`.
 
 **Userscript**
 
