@@ -91,6 +91,26 @@ npm install jsdom            # deliberately not vendored; this repo has no packa
 node tools/test-code-usage.js
 ```
 
+## Scripts pushed by API lose the executable bit
+
+The GitHub contents API creates every file as mode `100644`. Anything in `tools/`
+pushed that way arrives non-executable, so a fresh clone gets `Permission denied`
+on `./tools/build.sh` even though the content is byte-perfect.
+
+Blob-SHA verification does **not** catch this: the blob is the file's content, and
+the mode lives in the tree entry, so an identical SHA can still be the wrong mode.
+Check with `git ls-tree HEAD tools/` — the scripts should read `100755`.
+
+To restore it:
+
+```bash
+git update-index --chmod=+x tools/build.sh tools/check-sync.sh tools/sync-upstream.sh
+git commit -m "Restore the executable bit on tools/ scripts"
+git push
+```
+
+Until then, `bash tools/build.sh` works regardless of mode.
+
 ## Repo layout
 
 | Path | What it is |
